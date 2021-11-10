@@ -1,0 +1,4137 @@
+/* @@@@ File written by CANAPE_VERSION 11 0 10 @@@@ */
+
+ASAP2_VERSION 1 61
+/begin PROJECT MotionWise_PerformanceHost00_XCPonEthernet ""
+
+  /begin MODULE CPP ""
+
+    /begin A2ML
+
+      block "IF_DATA" taggedunion if_data {
+
+        "CANAPE_EXT" struct {
+          int;             /* version number */
+          taggedstruct {
+            "LINK_MAP" struct {
+              char[256];   /* segment name */
+              long;        /* base address of the segment */
+              uint;        /* address extension of the segment */
+              uint;        /* flag: address is relative to DS */
+              long;        /* offset of the segment address */
+              uint;        /* datatypValid */
+              uint;        /* enum datatyp */
+              uint;        /* bit offset of the segment */
+            };
+            "DISPLAY" struct {
+              long;        /* display color */
+              double;      /* minimal display value (phys)*/
+              double;      /* maximal display value (phys)*/
+            };
+            "VIRTUAL_CONVERSION" struct {
+              char[256];   /* name of the conversion formula */
+            };
+          };
+        };
+        "CANAPE_MODULE" struct {
+          taggedstruct {
+            ("RECORD_LAYOUT_STEPSIZE" struct {
+              char[256];   /* name of record layout*/
+              uint;        /* stepsize for FNC_VALUES */
+              uint;        /* stepsize for AXIS_PTS_X */
+              uint;        /* stepsize for AXIS_PTS_Y */
+              uint;        /* stepsize for AXIS_PTS_Z */
+              uint;        /* stepsize for AXIS_PTS_4 */
+              uint;        /* stepsize for AXIS_PTS_5 */
+            })*;
+          };
+        };
+        "CANAPE_GROUP" taggedstruct {
+          block "STRUCTURE_LIST" (char[1024])*;
+        };
+
+        "GENERIC_BSW_OBJECT" struct {
+          ulong;  /* Signal ID in ECU memory for address update */
+        };
+
+        "GENERIC_BSW_TEMPLATE_VERSION" struct {
+          ulong;
+        };
+
+        "XCP" struct {
+          taggedstruct Common_Parameters {
+            block "PROTOCOL_LAYER" struct Protocol_Layer {
+              uint;  /* XCP protocol layer version, current 0x100*/
+              uint;  /* T1 [ms]*/
+              uint;  /* T2 [ms]*/
+              uint;  /* T3 [ms]*/
+              uint;  /* T4 [ms]*/
+              uint;  /* T5 [ms]*/
+              uint;  /* T6 [ms]*/
+              uint;  /* T7 [ms]*/
+              uchar;  /* MAX_CTO*/
+              uint;  /* MAX_DTO*/
+              enum {
+                "BYTE_ORDER_MSB_LAST" = 0,
+                "BYTE_ORDER_MSB_FIRST" = 1
+              };  /* BYTE_ORDER: BYTE_ORDER_MSB_LAST = Intel, BYTE_ORDER_MSB_FIRST = Motorola*/
+              enum {
+                "ADDRESS_GRANULARITY_BYTE" = 1,
+                "ADDRESS_GRANULARITY_WORD" = 2,
+                "ADDRESS_GRANULARITY_DWORD" = 4
+              };  /*The address granularity indicates the size of an element contained at a single address.*/
+              taggedstruct {
+                ("OPTIONAL_CMD" enum {
+                  "GET_COMM_MODE_INFO" = 251,
+                  "GET_ID" = 250,
+                  "SET_REQUEST" = 249,
+                  "GET_SEED" = 248,
+                  "UNLOCK" = 247,
+                  "SET_MTA" = 246,
+                  "UPLOAD" = 245,
+                  "SHORT_UPLOAD" = 244,
+                  "BUILD_CHECKSUM" = 243,
+                  "TRANSPORT_LAYER_CMD" = 242,
+                  "USER_CMD" = 241,
+                  "DOWNLOAD" = 240,
+                  "DOWNLOAD_NEXT" = 239,
+                  "DOWNLOAD_MAX" = 238,
+                  "SHORT_DOWNLOAD" = 237,
+                  "MODIFY_BITS" = 236,
+                  "SET_CAL_PAGE" = 235,
+                  "GET_CAL_PAGE" = 234,
+                  "GET_PAG_PROCESSOR_INFO" = 233,
+                  "GET_SEGMENT_INFO" = 232,
+                  "GET_PAGE_INFO" = 231,
+                  "SET_SEGMENT_MODE" = 230,
+                  "GET_SEGMENT_MODE" = 229,
+                  "COPY_CAL_PAGE" = 228,
+                  "CLEAR_DAQ_LIST" = 227,
+                  "SET_DAQ_PTR" = 226,
+                  "WRITE_DAQ" = 225,
+                  "SET_DAQ_LIST_MODE" = 224,
+                  "GET_DAQ_LIST_MODE" = 223,
+                  "START_STOP_DAQ_LIST" = 222,
+                  "START_STOP_SYNCH" = 221,
+                  "GET_DAQ_CLOCK" = 220,
+                  "READ_DAQ" = 219,
+                  "GET_DAQ_PROCESSOR_INFO" = 218,
+                  "GET_DAQ_RESOLUTION_INFO" = 217,
+                  "GET_DAQ_LIST_INFO" = 216,
+                  "GET_DAQ_EVENT_INFO" = 215,
+                  "FREE_DAQ" = 214,
+                  "ALLOC_DAQ" = 213,
+                  "ALLOC_ODT" = 212,
+                  "ALLOC_ODT_ENTRY" = 211,
+                  "PROGRAM_START" = 210,
+                  "PROGRAM_CLEAR" = 209,
+                  "PROGRAM" = 208,
+                  "PROGRAM_RESET" = 207,
+                  "GET_PGM_PROCESSOR_INFO" = 206,
+                  "GET_SECTOR_INFO" = 205,
+                  "PROGRAM_PREPARE" = 204,
+                  "PROGRAM_FORMAT" = 203,
+                  "PROGRAM_NEXT" = 202,
+                  "PROGRAM_MAX" = 201,
+                  "PROGRAM_VERIFY" = 200
+                })*;  /* XCP-Code of optional command supported by the slave*/
+                "COMMUNICATION_MODE_SUPPORTED" taggedunion {
+                  "BLOCK" taggedstruct {
+                    "SLAVE" ;
+                    "MASTER" struct {
+                      uchar;  /* MAX_BS*/
+                      uchar;  /* MIN_ST*/
+                    };
+                  };
+                  "INTERLEAVED" uchar;  /* QUEUE_SIZE*/
+                };
+                "SEED_AND_KEY_EXTERNAL_FUNCTION" char[256];  /* Name of the Seed&Key function*/
+              };
+            };
+            block "SEGMENT" struct Segment {
+              uchar;  /* SEGMENT_NUMBER*/
+              uchar;  /* number of pages*/
+              uchar;  /* ADDRESS_EXTENSION*/
+              uchar;  /* COMPRESSION_METHOD*/
+              uchar;  /* ENCRYPTION_METHOD*/
+              taggedstruct {
+                block "CHECKSUM" struct {
+                  enum {
+                    "XCP_ADD_11" = 1,
+                    "XCP_ADD_12" = 2,
+                    "XCP_ADD_14" = 3,
+                    "XCP_ADD_22" = 4,
+                    "XCP_ADD_24" = 5,
+                    "XCP_ADD_44" = 6,
+                    "XCP_CRC_16" = 7,
+                    "XCP_CRC_16_CITT" = 8,
+                    "XCP_CRC_32" = 9,
+                    "XCP_USER_DEFINED" = 255
+                  };  /* Checksum type*/
+                  taggedstruct {
+                    "MAX_BLOCK_SIZE" ulong;  /* Maximum block size for checksum calculation */
+                    "EXTERNAL_FUNCTION" char[256];  /* Name of the Checksum.DLL*/
+                  };
+                };
+                (block "PAGE" struct {
+                  uchar;  /* PAGE_NUMBER*/
+                  enum {
+                    "ECU_ACCESS_NOT_ALLOWED" = 0,
+                    "ECU_ACCESS_WITHOUT_XCP_ONLY" = 1,
+                    "ECU_ACCESS_WITH_XCP_ONLY" = 2,
+                    "ECU_ACCESS_DONT_CARE" = 3
+                  };  /*The ECU_ACCESS_x  flags indicate whether and how the ECU can access this page.*/
+                  enum {
+                    "XCP_READ_ACCESS_NOT_ALLOWED" = 0,
+                    "XCP_READ_ACCESS_WITHOUT_ECU_ONLY" = 1,
+                    "XCP_READ_ACCESS_WITH_ECU_ONLY" = 2,
+                    "XCP_READ_ACCESS_DONT_CARE" = 3
+                  };  /*The XCP_x_ACCESS_y flags indicate whether and how the XCP master can access this page.*/
+                  enum {
+                    "XCP_WRITE_ACCESS_NOT_ALLOWED" = 0,
+                    "XCP_WRITE_ACCESS_WITHOUT_ECU_ONLY" = 1,
+                    "XCP_WRITE_ACCESS_WITH_ECU_ONLY" = 2,
+                    "XCP_WRITE_ACCESS_DONT_CARE" = 3
+                  };  /*The XCP_WRITE_ACCESS_x flags indicate whether the  X CP master can write to this PAGE*/
+                  taggedstruct {
+                    "INIT_SEGMENT" uchar;  /* references segment that initialises this page*/
+                  };
+                })*;  /* PAGES for this SEGMENT */
+                (block "ADDRESS_MAPPING" struct {
+                  ulong;  /* source address*/
+                  ulong;  /* destination address*/
+                  ulong;  /* length*/
+                })*;
+                "PGM_VERIFY" ulong;  /* verification value for PGM*/
+              };
+            };
+            block "PAG" struct Pag {
+              uchar;  /* MAX_SEGMENTS*/
+              taggedstruct {
+                "FREEZE_SUPPORTED" ;  /*This flag indicates that all SEGMENTS can be put in FREEZE */
+              };
+            };
+            block "PGM" struct Pgm {
+              enum {
+                "PGM_MODE_ABSOLUTE" = 1,
+                "PGM_MODE_FUNCTIONAL" = 2,
+                "PGM_MODE_ABSOLUTE_AND_FUNCTIONAL" = 3
+              };  /*The  ABSOLUTE_MODE  and  FUNCTIONAL_MODE  flags  indicate  the  clear/programming mode that can be used */
+              uchar;  /* MAX_SECTORS*/
+              uchar;  /* MAX_CTO_PGM*/
+              taggedstruct {
+                (block "SECTOR" struct {
+                  char[101];  /* SECTOR_NAME*/
+                  uchar;  /* SECTOR_NUMBER*/
+                  ulong;  /* Address*/
+                  ulong;  /* Length */
+                  uchar;  /* CLEAR_SEQUENCE_NUMBER*/
+                  uchar;  /* PROGRAM_SEQUENCE_NUMBER*/
+                  uchar;  /* PROGRAM_METHOD*/
+                })*;
+                "COMMUNICATION_MODE_SUPPORTED" taggedunion {
+                  "BLOCK" taggedstruct {
+                    "SLAVE" ;  /*This flag indicates whether the Slave Block Mode is available during Programming. */
+                    "MASTER" struct {
+                      uchar;  /* MAX_BS_PGM*/
+                      uchar;  /* MIN_ST_PGM*/
+                    };  /*This flag indicates whether the Master Block Mode is available */
+                  };
+                  "INTERLEAVED" uchar;  /* QUEUE_SIZE_PGM*/
+                };
+              };
+            };
+          };
+          taggedstruct {
+            block "XCP_ON_TCP_IP" struct {
+              struct TCP_IP_Parameters {
+                uint;  /* XCP on TCP_IP version, currently 0x0100*/
+                uint;  /* PORT*/
+                taggedunion {
+                  "HOST_NAME" char[256];  /*Name of the host like localhost*/
+                  "ADDRESS" char[15];  /* IP address like 127.0.0.1*/
+                };
+              };
+            };
+            block "XCP_ON_UDP_IP" struct {
+              struct UDP_Parameters {
+                uint;  /* XCP on UDP version, currently 0x0100*/
+                uint;  /* PORT*/
+                taggedunion {
+                  "HOST_NAME" char[256];  /*Name of the host like localhost*/
+                  "ADDRESS" char[15];  /* IP address like 127.0.0.1*/
+                };
+              };
+            };
+          };
+        };
+      };
+
+    /end A2ML
+
+    /begin MOD_COMMON ""
+      BYTE_ORDER MSB_LAST
+      ALIGNMENT_BYTE 1
+      ALIGNMENT_WORD 2
+      ALIGNMENT_LONG 4
+      ALIGNMENT_INT64 1
+      ALIGNMENT_FLOAT32_IEEE 4
+      ALIGNMENT_FLOAT64_IEEE 8
+    /end MOD_COMMON
+
+    /begin IF_DATA XCP
+      /begin PROTOCOL_LAYER
+        0x0101 
+        2000
+        10000
+        2000
+        2000
+        2000
+        2000
+        0
+        255 /* kXcpMaxCto */
+        255 /* kXcpMaxDto */
+        BYTE_ORDER_MSB_LAST
+        ADDRESS_GRANULARITY_BYTE
+        OPTIONAL_CMD ALLOC_ODT_ENTRY
+        OPTIONAL_CMD ALLOC_ODT
+        OPTIONAL_CMD ALLOC_DAQ
+        OPTIONAL_CMD FREE_DAQ
+        OPTIONAL_CMD GET_DAQ_EVENT_INFO
+        OPTIONAL_CMD GET_DAQ_RESOLUTION_INFO
+        OPTIONAL_CMD GET_DAQ_PROCESSOR_INFO
+        OPTIONAL_CMD START_STOP_SYNCH
+        OPTIONAL_CMD START_STOP_DAQ_LIST
+        OPTIONAL_CMD GET_DAQ_LIST_MODE
+        OPTIONAL_CMD SET_DAQ_LIST_MODE
+        OPTIONAL_CMD WRITE_DAQ
+        OPTIONAL_CMD SET_DAQ_PTR
+        OPTIONAL_CMD CLEAR_DAQ_LIST
+        OPTIONAL_CMD DOWNLOAD
+        OPTIONAL_CMD SHORT_UPLOAD
+        OPTIONAL_CMD UPLOAD
+        OPTIONAL_CMD SET_MTA
+        OPTIONAL_CMD GET_COMM_MODE_INFO
+      /end PROTOCOL_LAYER
+      /begin PAG
+        0x00
+      /end PAG
+      /begin XCP_ON_UDP_IP
+        0x0100
+        0xC418
+        ADDRESS "192.168.1.70"
+      /end XCP_ON_UDP_IP
+    /end IF_DATA
+    /begin IF_DATA GENERIC_BSW_TEMPLATE_VERSION
+      0x010000
+    /end IF_DATA
+    /begin MOD_PAR ""
+    /end MOD_PAR
+
+
+
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus ""
+      VALUE 0xf80000 __UWORD_S 0 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus.CONVERSION 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMajor ""
+      VALUE 0xf80004 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMinor ""
+      VALUE 0xf80005 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeVersion.DeMajor ""
+      VALUE 0xf80008 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeVersion.DeMinor ""
+      VALUE 0xf80009 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeData.ngSignal "10 sint32 array"
+      VAL_BLK 0xf8000c __SLONG_S 0 NO_COMPU_METHOD -2147483648 2147483647
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS -2147483648 2147483647
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeData.fgSignal "10 float32 array"
+      VAL_BLK 0xf80034 __FLOAT32_IEEE_S 0 NO_COMPU_METHOD 0 3.402823e+38
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 3.402823e+38
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CSCVcCmdDspCmd ""
+      VALUE 0xf90000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CSCDecIncVoCmd ""
+      VALUE 0xf90001 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CDisCtrVoCmd ""
+      VALUE 0xf90002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CSCVoCmd ""
+      VALUE 0xf90003 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CDisCVoCmd ""
+      VALUE 0xf90004 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.USBComReserved "10 uint8 array"
+      VAL_BLK 0xf90005 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.stHeader.Counter ""
+      VALUE 0xfa0000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.stHeader.FrameID ""
+      VALUE 0xfa0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0xfa0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.FeedBack ""
+      VALUE 0xfa000c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpDiagCoding.DeCoding.FW_Dummy ""
+      VALUE 0x5980000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.stHeader.Counter ""
+      VALUE 0x5990000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.stHeader.FrameID ""
+      VALUE 0x5990002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x5990004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Front_AV_Camera_Status ""
+      VALUE 0x599000c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Rear_AV_Camera_Status ""
+      VALUE 0x599000d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Left_AV_Camera_Status ""
+      VALUE 0x599000e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Right_AV_Camera_Status ""
+      VALUE 0x599000f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.stHeader.Counter ""
+      VALUE 0x59a0000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.stHeader.FrameID ""
+      VALUE 0x59a0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59a0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Front_SV_Camera_Status ""
+      VALUE 0x59a000c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Rear_SV_Camera_Status ""
+      VALUE 0x59a000d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Left_SV_Camera_Status ""
+      VALUE 0x59a000e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Right_SV_Camera_Status ""
+      VALUE 0x59a000f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.nReserved "8 uint8 array"
+      VAL_BLK 0x59a0010 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 8 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.stHeader.Counter ""
+      VALUE 0x59b0000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.stHeader.FrameID ""
+      VALUE 0x59b0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].stHeader.Counter ""
+      VALUE 0x59b000c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].stHeader.FrameID ""
+      VALUE 0x59b000e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0010 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjId ""
+      VALUE 0x59b0018 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b001a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjLatRltvDist ""
+      VALUE 0x59b001c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjStyle ""
+      VALUE 0x59b001e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjCrashRisk ""
+      VALUE 0x59b001f __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjAngle ""
+      VALUE 0x59b0020 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b0022 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjSyncCtr ""
+      VALUE 0x59b0024 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].stHeader.Counter ""
+      VALUE 0x59b0028 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].stHeader.FrameID ""
+      VALUE 0x59b002a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b002c __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjId ""
+      VALUE 0x59b0034 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b0036 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0038 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjStyle ""
+      VALUE 0x59b003a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjCrashRisk ""
+      VALUE 0x59b003b __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjAngle ""
+      VALUE 0x59b003c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b003e __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjSyncCtr ""
+      VALUE 0x59b0040 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].stHeader.Counter ""
+      VALUE 0x59b0044 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].stHeader.FrameID ""
+      VALUE 0x59b0046 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0048 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjId ""
+      VALUE 0x59b0050 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b0052 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0054 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjStyle ""
+      VALUE 0x59b0056 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjCrashRisk ""
+      VALUE 0x59b0057 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjAngle ""
+      VALUE 0x59b0058 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b005a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjSyncCtr ""
+      VALUE 0x59b005c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].stHeader.Counter ""
+      VALUE 0x59b0060 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].stHeader.FrameID ""
+      VALUE 0x59b0062 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0064 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjId ""
+      VALUE 0x59b006c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b006e __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0070 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjStyle ""
+      VALUE 0x59b0072 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjCrashRisk ""
+      VALUE 0x59b0073 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjAngle ""
+      VALUE 0x59b0074 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b0076 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjSyncCtr ""
+      VALUE 0x59b0078 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].stHeader.Counter ""
+      VALUE 0x59b007c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].stHeader.FrameID ""
+      VALUE 0x59b007e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0080 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjId ""
+      VALUE 0x59b0088 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b008a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjLatRltvDist ""
+      VALUE 0x59b008c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjStyle ""
+      VALUE 0x59b008e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjCrashRisk ""
+      VALUE 0x59b008f __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjAngle ""
+      VALUE 0x59b0090 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b0092 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjSyncCtr ""
+      VALUE 0x59b0094 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].stHeader.Counter ""
+      VALUE 0x59b0098 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].stHeader.FrameID ""
+      VALUE 0x59b009a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b009c __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjId ""
+      VALUE 0x59b00a4 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b00a6 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjLatRltvDist ""
+      VALUE 0x59b00a8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjStyle ""
+      VALUE 0x59b00aa __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjCrashRisk ""
+      VALUE 0x59b00ab __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjAngle ""
+      VALUE 0x59b00ac __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b00ae __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjSyncCtr ""
+      VALUE 0x59b00b0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].stHeader.Counter ""
+      VALUE 0x59b00b4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].stHeader.FrameID ""
+      VALUE 0x59b00b6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b00b8 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjId ""
+      VALUE 0x59b00c0 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b00c2 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjLatRltvDist ""
+      VALUE 0x59b00c4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjStyle ""
+      VALUE 0x59b00c6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjCrashRisk ""
+      VALUE 0x59b00c7 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjAngle ""
+      VALUE 0x59b00c8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b00ca __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjSyncCtr ""
+      VALUE 0x59b00cc __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].stHeader.Counter ""
+      VALUE 0x59b00d0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].stHeader.FrameID ""
+      VALUE 0x59b00d2 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b00d4 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjId ""
+      VALUE 0x59b00dc __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b00de __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjLatRltvDist ""
+      VALUE 0x59b00e0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjStyle ""
+      VALUE 0x59b00e2 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjCrashRisk ""
+      VALUE 0x59b00e3 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjAngle ""
+      VALUE 0x59b00e4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b00e6 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjSyncCtr ""
+      VALUE 0x59b00e8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].stHeader.Counter ""
+      VALUE 0x59b00ec __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].stHeader.FrameID ""
+      VALUE 0x59b00ee __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b00f0 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjId ""
+      VALUE 0x59b00f8 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b00fa __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjLatRltvDist ""
+      VALUE 0x59b00fc __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjStyle ""
+      VALUE 0x59b00fe __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjCrashRisk ""
+      VALUE 0x59b00ff __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjAngle ""
+      VALUE 0x59b0100 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b0102 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjSyncCtr ""
+      VALUE 0x59b0104 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].stHeader.Counter ""
+      VALUE 0x59b0108 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].stHeader.FrameID ""
+      VALUE 0x59b010a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b010c __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjId ""
+      VALUE 0x59b0114 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b0116 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0118 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjStyle ""
+      VALUE 0x59b011a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjCrashRisk ""
+      VALUE 0x59b011b __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjAngle ""
+      VALUE 0x59b011c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b011e __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjSyncCtr ""
+      VALUE 0x59b0120 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].stHeader.Counter ""
+      VALUE 0x59b0124 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].stHeader.FrameID ""
+      VALUE 0x59b0126 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0128 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjId ""
+      VALUE 0x59b0130 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b0132 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0134 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjStyle ""
+      VALUE 0x59b0136 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjCrashRisk ""
+      VALUE 0x59b0137 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjAngle ""
+      VALUE 0x59b0138 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b013a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjSyncCtr ""
+      VALUE 0x59b013c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].stHeader.Counter ""
+      VALUE 0x59b0140 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].stHeader.FrameID ""
+      VALUE 0x59b0142 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0144 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjId ""
+      VALUE 0x59b014c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b014e __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0150 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjStyle ""
+      VALUE 0x59b0152 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjCrashRisk ""
+      VALUE 0x59b0153 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjAngle ""
+      VALUE 0x59b0154 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b0156 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjSyncCtr ""
+      VALUE 0x59b0158 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].stHeader.Counter ""
+      VALUE 0x59b015c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].stHeader.FrameID ""
+      VALUE 0x59b015e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0160 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjId ""
+      VALUE 0x59b0168 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b016a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjLatRltvDist ""
+      VALUE 0x59b016c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjStyle ""
+      VALUE 0x59b016e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjCrashRisk ""
+      VALUE 0x59b016f __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjAngle ""
+      VALUE 0x59b0170 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b0172 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjSyncCtr ""
+      VALUE 0x59b0174 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].stHeader.Counter ""
+      VALUE 0x59b0178 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].stHeader.FrameID ""
+      VALUE 0x59b017a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b017c __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjId ""
+      VALUE 0x59b0184 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b0186 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjLatRltvDist ""
+      VALUE 0x59b0188 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjStyle ""
+      VALUE 0x59b018a __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjCrashRisk ""
+      VALUE 0x59b018b __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjAngle ""
+      VALUE 0x59b018c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b018e __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjSyncCtr ""
+      VALUE 0x59b0190 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].stHeader.Counter ""
+      VALUE 0x59b0194 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].stHeader.FrameID ""
+      VALUE 0x59b0196 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b0198 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjId ""
+      VALUE 0x59b01a0 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b01a2 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjLatRltvDist ""
+      VALUE 0x59b01a4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjStyle ""
+      VALUE 0x59b01a6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjCrashRisk ""
+      VALUE 0x59b01a7 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjAngle ""
+      VALUE 0x59b01a8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b01aa __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjSyncCtr ""
+      VALUE 0x59b01ac __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].stHeader.Counter ""
+      VALUE 0x59b01b0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].stHeader.FrameID ""
+      VALUE 0x59b01b2 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59b01b4 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjId ""
+      VALUE 0x59b01bc __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjLongtRltvDist ""
+      VALUE 0x59b01be __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjLatRltvDist ""
+      VALUE 0x59b01c0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjStyle ""
+      VALUE 0x59b01c2 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjCrashRisk ""
+      VALUE 0x59b01c3 __UBYTE_S 0 NO_COMPU_METHOD 0 1
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 1
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjAngle ""
+      VALUE 0x59b01c4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjLongtRltvSpd ""
+      VALUE 0x59b01c6 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjSyncCtr ""
+      VALUE 0x59b01c8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.stHeader.Counter ""
+      VALUE 0x59c0000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.stHeader.FrameID ""
+      VALUE 0x59c0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59c0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.NavigationTrafficLightInfo ""
+      VALUE 0x59c000c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].stHeader.Counter ""
+      VALUE 0x59c0010 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].stHeader.FrameID ""
+      VALUE 0x59c0012 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59c0014 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].TrafficLightShap ""
+      VALUE 0x59c001c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].TrafficLightColr ""
+      VALUE 0x59c001d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].TrafficLightTim ""
+      VALUE 0x59c001e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].stHeader.Counter ""
+      VALUE 0x59c0020 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].stHeader.FrameID ""
+      VALUE 0x59c0022 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59c0024 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].TrafficLightShap ""
+      VALUE 0x59c002c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].TrafficLightColr ""
+      VALUE 0x59c002d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].TrafficLightTim ""
+      VALUE 0x59c002e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].stHeader.Counter ""
+      VALUE 0x59c0030 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].stHeader.FrameID ""
+      VALUE 0x59c0032 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59c0034 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].TrafficLightShap ""
+      VALUE 0x59c003c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].TrafficLightColr ""
+      VALUE 0x59c003d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].TrafficLightTim ""
+      VALUE 0x59c003e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].stHeader.Counter ""
+      VALUE 0x59c0040 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].stHeader.FrameID ""
+      VALUE 0x59c0042 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59c0044 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].TrafficLightShap ""
+      VALUE 0x59c004c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].TrafficLightColr ""
+      VALUE 0x59c004d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].TrafficLightTim ""
+      VALUE 0x59c004e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.RoadSpeedLimitSign ""
+      VALUE 0x59c0050 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.SpeedingWrnng ""
+      VALUE 0x59c0051 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.TrafficbanSign ""
+      VALUE 0x59c0052 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.TrafficWrnngSign ""
+      VALUE 0x59c0053 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.stHeader.Counter ""
+      VALUE 0x59d0000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.stHeader.FrameID ""
+      VALUE 0x59d0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].stHeader.Counter ""
+      VALUE 0x59d000c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].stHeader.FrameID ""
+      VALUE 0x59d000e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0010 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceID ""
+      VALUE 0x59d0018 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d001a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d001c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceAngle ""
+      VALUE 0x59d001e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceSts ""
+      VALUE 0x59d001f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0020 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].stHeader.Counter ""
+      VALUE 0x59d0024 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].stHeader.FrameID ""
+      VALUE 0x59d0026 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0028 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceID ""
+      VALUE 0x59d0030 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d0032 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d0034 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceAngle ""
+      VALUE 0x59d0036 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceSts ""
+      VALUE 0x59d0037 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0038 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].stHeader.Counter ""
+      VALUE 0x59d003c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].stHeader.FrameID ""
+      VALUE 0x59d003e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0040 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceID ""
+      VALUE 0x59d0048 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d004a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d004c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceAngle ""
+      VALUE 0x59d004e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceSts ""
+      VALUE 0x59d004f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0050 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].stHeader.Counter ""
+      VALUE 0x59d0054 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].stHeader.FrameID ""
+      VALUE 0x59d0056 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0058 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceID ""
+      VALUE 0x59d0060 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d0062 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d0064 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceAngle ""
+      VALUE 0x59d0066 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceSts ""
+      VALUE 0x59d0067 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0068 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].stHeader.Counter ""
+      VALUE 0x59d006c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].stHeader.FrameID ""
+      VALUE 0x59d006e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0070 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceID ""
+      VALUE 0x59d0078 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d007a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d007c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceAngle ""
+      VALUE 0x59d007e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceSts ""
+      VALUE 0x59d007f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0080 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].stHeader.Counter ""
+      VALUE 0x59d0084 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].stHeader.FrameID ""
+      VALUE 0x59d0086 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0088 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceID ""
+      VALUE 0x59d0090 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d0092 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d0094 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceAngle ""
+      VALUE 0x59d0096 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceSts ""
+      VALUE 0x59d0097 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0098 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].stHeader.Counter ""
+      VALUE 0x59d009c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].stHeader.FrameID ""
+      VALUE 0x59d009e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d00a0 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceID ""
+      VALUE 0x59d00a8 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d00aa __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d00ac __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceAngle ""
+      VALUE 0x59d00ae __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceSts ""
+      VALUE 0x59d00af __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceSyncCtr ""
+      VALUE 0x59d00b0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].stHeader.Counter ""
+      VALUE 0x59d00b4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].stHeader.FrameID ""
+      VALUE 0x59d00b6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d00b8 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceID ""
+      VALUE 0x59d00c0 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d00c2 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d00c4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceAngle ""
+      VALUE 0x59d00c6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceSts ""
+      VALUE 0x59d00c7 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceSyncCtr ""
+      VALUE 0x59d00c8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].stHeader.Counter ""
+      VALUE 0x59d00cc __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].stHeader.FrameID ""
+      VALUE 0x59d00ce __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d00d0 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceID ""
+      VALUE 0x59d00d8 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d00da __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d00dc __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceAngle ""
+      VALUE 0x59d00de __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceSts ""
+      VALUE 0x59d00df __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceSyncCtr ""
+      VALUE 0x59d00e0 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].stHeader.Counter ""
+      VALUE 0x59d00e4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].stHeader.FrameID ""
+      VALUE 0x59d00e6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d00e8 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceID ""
+      VALUE 0x59d00f0 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d00f2 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d00f4 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceAngle ""
+      VALUE 0x59d00f6 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceSts ""
+      VALUE 0x59d00f7 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceSyncCtr ""
+      VALUE 0x59d00f8 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].stHeader.Counter ""
+      VALUE 0x59d00fc __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].stHeader.FrameID ""
+      VALUE 0x59d00fe __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0100 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceID ""
+      VALUE 0x59d0108 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d010a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d010c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceAngle ""
+      VALUE 0x59d010e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceSts ""
+      VALUE 0x59d010f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0110 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].stHeader.Counter ""
+      VALUE 0x59d0114 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].stHeader.FrameID ""
+      VALUE 0x59d0116 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0118 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceID ""
+      VALUE 0x59d0120 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d0122 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d0124 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceAngle ""
+      VALUE 0x59d0126 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceSts ""
+      VALUE 0x59d0127 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0128 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].stHeader.Counter ""
+      VALUE 0x59d012c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].stHeader.FrameID ""
+      VALUE 0x59d012e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0130 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceID ""
+      VALUE 0x59d0138 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d013a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d013c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceAngle ""
+      VALUE 0x59d013e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceSts ""
+      VALUE 0x59d013f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0140 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].stHeader.Counter ""
+      VALUE 0x59d0144 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].stHeader.FrameID ""
+      VALUE 0x59d0146 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0148 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceID ""
+      VALUE 0x59d0150 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d0152 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d0154 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceAngle ""
+      VALUE 0x59d0156 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceSts ""
+      VALUE 0x59d0157 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0158 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].stHeader.Counter ""
+      VALUE 0x59d015c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].stHeader.FrameID ""
+      VALUE 0x59d015e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0160 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceID ""
+      VALUE 0x59d0168 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d016a __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d016c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceAngle ""
+      VALUE 0x59d016e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceSts ""
+      VALUE 0x59d016f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0170 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].stHeader.Counter ""
+      VALUE 0x59d0174 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].stHeader.FrameID ""
+      VALUE 0x59d0176 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x59d0178 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceID ""
+      VALUE 0x59d0180 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceLongtRltvDist ""
+      VALUE 0x59d0182 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceLatRltvDist ""
+      VALUE 0x59d0184 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceAngle ""
+      VALUE 0x59d0186 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceSts ""
+      VALUE 0x59d0187 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceSyncCtr ""
+      VALUE 0x59d0188 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.TgtParkngSpaceID ""
+      VALUE 0x59d018c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus ""
+      VALUE 0x59e0000 __UWORD_S 0 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus.CONVERSION 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMajor ""
+      VALUE 0x59e0004 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMinor ""
+      VALUE 0x59e0005 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeVersion.DeMajor ""
+      VALUE 0x59e0008 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeVersion.DeMinor ""
+      VALUE 0x59e0009 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeData.ngSignal "10 sint32 array"
+      VAL_BLK 0x59e000c __SLONG_S 0 NO_COMPU_METHOD -2147483648 2147483647
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS -2147483648 2147483647
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeData.fgSignal "10 float32 array"
+      VAL_BLK 0x59e0034 __FLOAT32_IEEE_S 0 NO_COMPU_METHOD 0 3.402823e+38
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 3.402823e+38
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeBuildDate.status ""
+      VALUE 0x59f0000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeBuildDate.nanoseconds ""
+      VALUE 0x59f0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeBuildDate.seconds ""
+      VALUE 0x59f0008 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeBuildDate.secondsHigh ""
+      VALUE 0x59f000c __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeBuildRevision ""
+      VALUE 0x5a00000 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DePlatformVersion.DeMajor ""
+      VALUE 0x5a10000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DePlatformVersion.DeMinor ""
+      VALUE 0x5a10001 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DePlatformVersion.DePatch ""
+      VALUE 0x5a10002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeReleaseType "5 uint8 array"
+      VAL_BLK 0x5a20000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 5 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeSystemVersion.DeMajor ""
+      VALUE 0x5a30000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeSystemVersion.DeMinor ""
+      VALUE 0x5a30001 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfInformation.DeSystemVersion.DePatch ""
+      VALUE 0x5a30002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeIFSETVersion.DeMajor ""
+      VALUE 0x5a40000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeIFSETVersion.DeMinor ""
+      VALUE 0x5a40001 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeIFSETVersion.DePatch ""
+      VALUE 0x5a40002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeLCSPH00State ""
+      VALUE 0x5a50000 __UBYTE_S 0 CtApUSBCom.PpPFProvidedData.DeLCSPH00State.Dt_ENUM_LCS_State.CONVERSION 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeLCSSH00State ""
+      VALUE 0x5a60000 __UBYTE_S 0 CtApUSBCom.PpPFProvidedData.DeLCSSH00State.Dt_ENUM_LCS_State.CONVERSION 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeLCSSH01State ""
+      VALUE 0x5a70000 __UBYTE_S 0 CtApUSBCom.PpPFProvidedData.DeLCSSH01State.Dt_ENUM_LCS_State.CONVERSION 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeLCSSystemState ""
+      VALUE 0x5a80000 __UBYTE_S 0 CtApUSBCom.PpPFProvidedData.DeLCSSystemState.Dt_ENUM_LCS_State.CONVERSION 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPFProvidedData.DeVARHWVariant ""
+      VALUE 0x5a90000 __UBYTE_S 0 CtApUSBCom.PpPFProvidedData.DeVARHWVariant.Dt_ENUM_VAR_HWVariant.CONVERSION 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.ngSignal "10 sint32 array"
+      VAL_BLK 0x5aa0000 __SLONG_S 0 NO_COMPU_METHOD -2147483648 2147483647
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS -2147483648 2147483647
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.fgSignal "10 float32 array"
+      VAL_BLK 0x5aa0028 __FLOAT32_IEEE_S 0 NO_COMPU_METHOD 0 3.402823e+38
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 3.402823e+38
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.stHeader.Counter ""
+      VALUE 0x5aa0050 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.stHeader.FrameID ""
+      VALUE 0x5aa0052 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x5aa0054 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.stHeader.Counter ""
+      VALUE 0x5ab0000 __UWORD_S 0 NO_COMPU_METHOD 0 65535
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 65535
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.stHeader.FrameID ""
+      VALUE 0x5ab0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.stHeader.TimeStamp "2 uint32 array"
+      VAL_BLK 0x5ab0004 __ULONG_S 0 NO_COMPU_METHOD 0 4294967295
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 4294967295
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 2 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.nWarningLevel ""
+      VALUE 0x5ab000c __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.nDrivingStatus ""
+      VALUE 0x5ab000d __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.nDrivingMode ""
+      VALUE 0x5ab000e __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.ngBKP "10 uint8 array"
+      VAL_BLK 0x5ab000f __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager2USBCom_100ms.DeSysManager2USBCom.CSCVcCmdDspCmdR ""
+      VALUE 0x5ac0000 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager2USBCom_100ms.DeSysManager2USBCom.CDisCVoCndCfm ""
+      VALUE 0x5ac0001 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+
+    /end CHARACTERISTIC
+    
+    /begin CHARACTERISTIC CtApUSBCom.PpSysManager2USBCom_100ms.DeSysManager2USBCom.BKP "10 uint8 array"
+      VAL_BLK 0x5ac0002 __UBYTE_S 0 NO_COMPU_METHOD 0 255
+      ECU_ADDRESS_EXTENSION 0x80
+      EXTENDED_LIMITS 0 255
+      BYTE_ORDER MSB_LAST
+      MATRIX_DIM 10 1 1
+    /end CHARACTERISTIC
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus
+    /end COMPU_METHOD
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus
+    /end COMPU_METHOD
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPFProvidedData.DeLCSPH00State.Dt_ENUM_LCS_State.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPFProvidedData.DeLCSPH00State.Dt_ENUM_LCS_State
+    /end COMPU_METHOD
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPFProvidedData.DeLCSSH00State.Dt_ENUM_LCS_State.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPFProvidedData.DeLCSSH00State.Dt_ENUM_LCS_State
+    /end COMPU_METHOD
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPFProvidedData.DeLCSSH01State.Dt_ENUM_LCS_State.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPFProvidedData.DeLCSSH01State.Dt_ENUM_LCS_State
+    /end COMPU_METHOD
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPFProvidedData.DeLCSSystemState.Dt_ENUM_LCS_State.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPFProvidedData.DeLCSSystemState.Dt_ENUM_LCS_State
+    /end COMPU_METHOD
+    
+    /begin COMPU_METHOD CtApUSBCom.PpPFProvidedData.DeVARHWVariant.Dt_ENUM_VAR_HWVariant.CONVERSION
+                        ""
+                        TAB_VERB
+                        "%10.10"
+                        ""
+      COMPU_TAB_REF CtApUSBCom.PpPFProvidedData.DeVARHWVariant.Dt_ENUM_VAR_HWVariant
+    /end COMPU_METHOD
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus
+                      "Conversion table for CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      5
+                      0 "DATABLOCK_INIT"
+                      1 "DATABLOCK_OK"
+                      2 "DATABLOCK_NOT_OK"
+                      3 "DATABLOCK_WRONGCRC"
+                      4 "DATABLOCK_ERASED"
+                      
+    /end COMPU_VTAB
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus
+                      "Conversion table for CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus.Dt_ENUM_PdDatablockStatus.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      5
+                      0 "DATABLOCK_INIT"
+                      1 "DATABLOCK_OK"
+                      2 "DATABLOCK_NOT_OK"
+                      3 "DATABLOCK_WRONGCRC"
+                      4 "DATABLOCK_ERASED"
+                      
+    /end COMPU_VTAB
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPFProvidedData.DeLCSPH00State.Dt_ENUM_LCS_State
+                      "Conversion table for CtApUSBCom.PpPFProvidedData.DeLCSPH00State.Dt_ENUM_LCS_State.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      8
+                      0 "LCS_STATE_INIT"
+                      1 "LCS_STATE_EST"
+                      2 "LCS_STATE_STA"
+                      3 "LCS_STATE_SBY"
+                      4 "LCS_STATE_RUN"
+                      5 "LCS_STATE_SHU"
+                      6 "LCS_STATE_WPO"
+                      7 "LCS_STATE_NOTPRESENT"
+                      
+    /end COMPU_VTAB
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPFProvidedData.DeLCSSH00State.Dt_ENUM_LCS_State
+                      "Conversion table for CtApUSBCom.PpPFProvidedData.DeLCSSH00State.Dt_ENUM_LCS_State.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      8
+                      0 "LCS_STATE_INIT"
+                      1 "LCS_STATE_EST"
+                      2 "LCS_STATE_STA"
+                      3 "LCS_STATE_SBY"
+                      4 "LCS_STATE_RUN"
+                      5 "LCS_STATE_SHU"
+                      6 "LCS_STATE_WPO"
+                      7 "LCS_STATE_NOTPRESENT"
+                      
+    /end COMPU_VTAB
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPFProvidedData.DeLCSSH01State.Dt_ENUM_LCS_State
+                      "Conversion table for CtApUSBCom.PpPFProvidedData.DeLCSSH01State.Dt_ENUM_LCS_State.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      8
+                      0 "LCS_STATE_INIT"
+                      1 "LCS_STATE_EST"
+                      2 "LCS_STATE_STA"
+                      3 "LCS_STATE_SBY"
+                      4 "LCS_STATE_RUN"
+                      5 "LCS_STATE_SHU"
+                      6 "LCS_STATE_WPO"
+                      7 "LCS_STATE_NOTPRESENT"
+                      
+    /end COMPU_VTAB
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPFProvidedData.DeLCSSystemState.Dt_ENUM_LCS_State
+                      "Conversion table for CtApUSBCom.PpPFProvidedData.DeLCSSystemState.Dt_ENUM_LCS_State.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      8
+                      0 "LCS_STATE_INIT"
+                      1 "LCS_STATE_EST"
+                      2 "LCS_STATE_STA"
+                      3 "LCS_STATE_SBY"
+                      4 "LCS_STATE_RUN"
+                      5 "LCS_STATE_SHU"
+                      6 "LCS_STATE_WPO"
+                      7 "LCS_STATE_NOTPRESENT"
+                      
+    /end COMPU_VTAB
+    
+    /begin COMPU_VTAB CtApUSBCom.PpPFProvidedData.DeVARHWVariant.Dt_ENUM_VAR_HWVariant
+                      "Conversion table for CtApUSBCom.PpPFProvidedData.DeVARHWVariant.Dt_ENUM_VAR_HWVariant.CONVERSION COMPU_METHOD"
+                      TAB_VERB
+                      2
+                      0 "VARIANT_UNKNOWN"
+                      1 "ADAS"
+                      
+    /end COMPU_VTAB
+    
+    /begin GROUP CtApUSBCom_xcp_kvs_group
+                 "MotinWise KVS characteristic group"
+                 ROOT
+      /begin REF_CHARACTERISTIC
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeStatus
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMajor
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMinor
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeVersion.DeMajor
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeVersion.DeVersion.DeMinor
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeData.ngSignal
+                 CtApUSBCom.PpPdUSBComWrite.DeUSBCom_Critical.DeData.fgSignal
+                 CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CSCVcCmdDspCmd
+                 CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CSCDecIncVoCmd
+                 CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CDisCtrVoCmd
+                 CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CSCVoCmd
+                 CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.CDisCVoCmd
+                 CtApUSBCom.PpUSBCom_CtApSysManager_100ms.DeFICM2IECUSpdCtrl.USBComReserved
+                 CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.stHeader.Counter
+                 CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.stHeader.FrameID
+                 CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.stHeader.TimeStamp
+                 CtApUSBCom.PpUSBCom_InteractionProcess_100ms.DeParkingSpaceDspFeedBack.FeedBack
+                 CtApUSBCom.PpDiagCoding.DeCoding.FW_Dummy
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.stHeader.Counter
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.stHeader.FrameID
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.stHeader.TimeStamp
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Front_AV_Camera_Status
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Rear_AV_Camera_Status
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Left_AV_Camera_Status
+                 CtApUSBCom.PpEthernetCom_AVCameraFail_100ms.DeAVCameraFail.Right_AV_Camera_Status
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.stHeader.Counter
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.stHeader.FrameID
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.stHeader.TimeStamp
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Front_SV_Camera_Status
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Rear_SV_Camera_Status
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Left_SV_Camera_Status
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.Right_SV_Camera_Status
+                 CtApUSBCom.PpImageProcess_SVCameraFail_60ms.DeSurroundCameraFail.nReserved
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[0].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[1].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[2].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[3].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[4].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[5].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[6].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[7].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[8].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[9].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[10].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[11].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[12].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[13].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[14].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjId
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjStyle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjCrashRisk
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjLongtRltvSpd
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeAIPilotObjsDsp.gstAIPilotObjects[15].AIPilotObjSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.NavigationTrafficLightInfo
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].TrafficLightShap
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].TrafficLightColr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[0].TrafficLightTim
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].TrafficLightShap
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].TrafficLightColr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[1].TrafficLightTim
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].TrafficLightShap
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].TrafficLightColr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[2].TrafficLightTim
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].TrafficLightShap
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].TrafficLightColr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.gstTrafficLights[3].TrafficLightTim
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.RoadSpeedLimitSign
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.SpeedingWrnng
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.TrafficbanSign
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeIECUNavigationInfo.TrafficWrnngSign
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[0].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[1].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[2].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[3].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[4].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[5].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[6].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[7].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[8].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[9].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[10].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[11].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[12].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[13].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[14].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].stHeader.Counter
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].stHeader.FrameID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].stHeader.TimeStamp
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceID
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceLongtRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceLatRltvDist
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceAngle
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceSts
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.gstParkingSpaces[15].ParkngSpaceSyncCtr
+                 CtApUSBCom.PpInteractionProcess_USBCom_100ms.DeParkingSpacesDsp.TgtParkngSpaceID
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeStatus
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMajor
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeExpectedVersion.DeMinor
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeVersion.DeMajor
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeVersion.DeVersion.DeMinor
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeData.ngSignal
+                 CtApUSBCom.PpPdUSBComRead.DeUSBCom_Critical.DeData.fgSignal
+                 CtApUSBCom.PpPfInformation.DeBuildDate.status
+                 CtApUSBCom.PpPfInformation.DeBuildDate.nanoseconds
+                 CtApUSBCom.PpPfInformation.DeBuildDate.seconds
+                 CtApUSBCom.PpPfInformation.DeBuildDate.secondsHigh
+                 CtApUSBCom.PpPfInformation.DeBuildRevision
+                 CtApUSBCom.PpPfInformation.DePlatformVersion.DeMajor
+                 CtApUSBCom.PpPfInformation.DePlatformVersion.DeMinor
+                 CtApUSBCom.PpPfInformation.DePlatformVersion.DePatch
+                 CtApUSBCom.PpPfInformation.DeReleaseType
+                 CtApUSBCom.PpPfInformation.DeSystemVersion.DeMajor
+                 CtApUSBCom.PpPfInformation.DeSystemVersion.DeMinor
+                 CtApUSBCom.PpPfInformation.DeSystemVersion.DePatch
+                 CtApUSBCom.PpPFProvidedData.DeIFSETVersion.DeMajor
+                 CtApUSBCom.PpPFProvidedData.DeIFSETVersion.DeMinor
+                 CtApUSBCom.PpPFProvidedData.DeIFSETVersion.DePatch
+                 CtApUSBCom.PpPFProvidedData.DeLCSPH00State
+                 CtApUSBCom.PpPFProvidedData.DeLCSSH00State
+                 CtApUSBCom.PpPFProvidedData.DeLCSSH01State
+                 CtApUSBCom.PpPFProvidedData.DeLCSSystemState
+                 CtApUSBCom.PpPFProvidedData.DeVARHWVariant
+                 CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.ngSignal
+                 CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.fgSignal
+                 CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.stHeader.Counter
+                 CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.stHeader.FrameID
+                 CtApUSBCom.PpPfTpUSBCom_CLB_100ms.DeUSBComCLB.stHeader.TimeStamp
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.stHeader.Counter
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.stHeader.FrameID
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.stHeader.TimeStamp
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.nWarningLevel
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.nDrivingStatus
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.nDrivingMode
+                 CtApUSBCom.PpSysManager_DrivingModeSts_50ms.DeDrivingModeSts.ngBKP
+                 CtApUSBCom.PpSysManager2USBCom_100ms.DeSysManager2USBCom.CSCVcCmdDspCmdR
+                 CtApUSBCom.PpSysManager2USBCom_100ms.DeSysManager2USBCom.CDisCVoCndCfm
+                 CtApUSBCom.PpSysManager2USBCom_100ms.DeSysManager2USBCom.BKP
+      /end REF_CHARACTERISTIC
+    /end GROUP
+    
+
+    /begin RECORD_LAYOUT __UBYTE_Z 
+      FNC_VALUES 1 UBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __UWORD_Z 
+      FNC_VALUES 1 UWORD ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __ULONG_Z 
+      FNC_VALUES 1 ULONG ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __SBYTE_Z 
+      FNC_VALUES 1 SBYTE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __SWORD_Z 
+      FNC_VALUES 1 SWORD ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __SLONG_Z 
+      FNC_VALUES 1 SLONG ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __FLOAT32_IEEE_Z 
+      FNC_VALUES 1 FLOAT32_IEEE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __FLOAT64_IEEE_Z 
+      FNC_VALUES 1 FLOAT64_IEEE ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __UBYTE_S 
+      FNC_VALUES 1 UBYTE COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __UWORD_S 
+      FNC_VALUES 1 UWORD COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __ULONG_S 
+      FNC_VALUES 1 ULONG COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __SBYTE_S 
+      FNC_VALUES 1 SBYTE COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __SWORD_S 
+      FNC_VALUES 1 SWORD COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __SLONG_S 
+      FNC_VALUES 1 SLONG COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __FLOAT32_IEEE_S 
+      FNC_VALUES 1 FLOAT32_IEEE COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __FLOAT64_IEEE_S 
+      FNC_VALUES 1 FLOAT64_IEEE COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__UBYTE_S 
+      AXIS_PTS_X 1 UBYTE INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__UWORD_S 
+      AXIS_PTS_X 1 UWORD INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__ULONG_S 
+      AXIS_PTS_X 1 ULONG INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__SBYTE_S 
+      AXIS_PTS_X 1 SBYTE INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__SWORD_S 
+      AXIS_PTS_X 1 SWORD INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__SLONG_S 
+      AXIS_PTS_X 1 SLONG INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__FLOAT32_IEEE_S 
+      AXIS_PTS_X 1 FLOAT32_IEEE INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__FLOAT64_IEEE_S 
+      AXIS_PTS_X 1 FLOAT64_IEEE INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __A_UINT64_Z 
+      FNC_VALUES 1 A_UINT64 ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __A_INT64_Z 
+      FNC_VALUES 1 A_INT64 ROW_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __A_UINT64_S 
+      FNC_VALUES 1 A_UINT64 COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT __A_INT64_S 
+      FNC_VALUES 1 A_INT64 COLUMN_DIR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__A_UINT64_S 
+      AXIS_PTS_X 1 A_UINT64 INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+    /begin RECORD_LAYOUT SSV__A_INT64_S 
+      AXIS_PTS_X 1 A_INT64 INDEX_INCR DIRECT
+    /end RECORD_LAYOUT
+
+  /end MODULE
+/end PROJECT

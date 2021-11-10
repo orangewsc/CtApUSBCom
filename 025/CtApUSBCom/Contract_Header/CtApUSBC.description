@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<adtf:ddl xmlns:adtf="adtf">
+  <header>
+    <language_version>2.0</language_version>
+    <author>TTTech TTX-Mwcodegenerator (Version 0.17.0, 18-Apr-2018)</author>
+    <date_creation>14-01-2021</date_creation>
+    <date_change/>
+    <description>CtApUSBCom - IFSET 1.1.20</description>
+  </header>
+  <datatypes>
+    <datatype description="predefined ADTF tUInt8 datatype" name="tUInt8" size="8"/>
+    <datatype description="predefined ADTF tInt8 datatype" name="tInt8" size="8"/>
+    <datatype description="predefined ADTF tUInt16 datatype" name="tUInt16" size="16"/>
+    <datatype description="predefined ADTF tInt16 datatype" name="tInt16" size="16"/>
+    <datatype description="predefined ADTF tUInt32 datatype" name="tUInt32" size="32"/>
+    <datatype description="predefined ADTF tInt32 datatype" name="tInt32" size="32"/>
+    <datatype description="predefined ADTF tFloat32 datatype" name="tFloat32" size="32"/>
+  </datatypes>
+  <structs>
+    <!--Definition for struct Dt_RECORD_SW_Version with size 4 bytes (packed size: 4 bytes)-->
+    <struct alignment="2" name="Dt_RECORD_SW_Version" version="1">
+      <!--Element with RTE datatype uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeMajor" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 1 bytes (packed offset: 1 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="1" max="255" min="0" name="DeMinor" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="2" max="65535" min="0" name="PaddingGap16_1" type="tUInt16"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_PdVersion with size 8 bytes (packed size: 8 bytes)-->
+    <struct alignment="2" name="Dt_RECORD_PdVersion" version="1">
+      <!--Element with RTE datatype Dt_RECORD_SW_Version, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="0" name="DeExpectedVersion" type="Dt_RECORD_SW_Version"/>
+      <!--Element with RTE datatype Dt_RECORD_SW_Version, offset 4 bytes (packed offset: 4 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="4" name="DeVersion" type="Dt_RECORD_SW_Version"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="4" name="Dt_ARRAY_10_sint32" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10_sint32, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="10" byteorder="LE" bytepos="0" name="elements" type="tInt32"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="4" name="Dt_ARRAY_10_float32" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10_float32, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="10" byteorder="LE" bytepos="0" name="elements" type="tFloat32"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_Save with size 80 bytes (packed size: 80 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_Save" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10_sint32, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="ngSignal" type="Dt_ARRAY_10_sint32"/>
+      <!--Element with RTE datatype Dt_ARRAY_10_float32, offset 40 bytes (packed offset: 40 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="40" name="fgSignal" type="Dt_ARRAY_10_float32"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_USBCom_Critical with size 92 bytes (packed size: 92 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_USBCom_Critical" version="1">
+      <!--Element with RTE datatype Dt_ENUM_PdDatablockStatus, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="0" max="65535" min="0" name="DeStatus" type="tUInt16"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="2" max="65535" min="0" name="PaddingGap16_1" type="tUInt16"/>
+      <!--Element with RTE datatype Dt_RECORD_PdVersion, offset 4 bytes (packed offset: 4 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="4" name="DeVersion" type="Dt_RECORD_PdVersion"/>
+      <!--Element with RTE datatype Dt_RECORD_Save, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" name="DeData" type="Dt_RECORD_Save"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="4" name="Dt_ARRAY_UINT64_1_0" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_UINT64_1_0, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="2" byteorder="LE" bytepos="0" name="elements" type="tUInt32"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_HEADER with size 12 bytes (packed size: 12 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_HEADER" version="1">
+      <!--Element with RTE datatype uint16, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="0" max="65535" min="0" name="Counter" type="tUInt16"/>
+      <!--Element with RTE datatype uint8, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="2" max="255" min="0" name="FrameID" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 3 bytes (packed offset: 3 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="3" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype Dt_ARRAY_UINT64_1_0, offset 4 bytes (packed offset: 4 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="4" name="TimeStamp" type="Dt_ARRAY_UINT64_1_0"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_ParkingSpaceDspFeedBack with size 16 bytes (packed size: 16 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_ParkingSpaceDspFeedBack" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="FeedBack" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_NavigationInfo with size 36 bytes (packed size: 36 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_NavigationInfo" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="TrfcJamRngNav" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="DistToTrfcJamNav" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="DistToDsttnNav" type="tUInt16"/>
+      <!--Element with RTE datatype sint32, offset 16 bytes (packed offset: 16 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="16" max="2147483647" min="-2147483648" name="FICMPosngSysLatd" type="tInt32"/>
+      <!--Element with RTE datatype sint32, offset 20 bytes (packed offset: 20 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="20" max="2147483647" min="-2147483648" name="FICMPosngSysLongd" type="tInt32"/>
+      <!--Element with RTE datatype uint8, offset 24 bytes (packed offset: 24 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="24" max="255" min="0" name="SpdLmtNav" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 25 bytes (packed offset: 25 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="25" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 26 bytes (packed offset: 26 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="26" max="65535" min="0" name="SpdLmtPathRngNav" type="tUInt16"/>
+      <!--Element with RTE datatype uint8, offset 28 bytes (packed offset: 28 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="28" max="255" min="0" name="MnvrngPntTypNav" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 29 bytes (packed offset: 29 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="29" max="255" min="0" name="PaddingGap8_2" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 30 bytes (packed offset: 30 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="30" max="65535" min="0" name="MnvrngPntDistNav" type="tUInt16"/>
+      <!--Element with RTE datatype uint16, offset 32 bytes (packed offset: 32 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="32" max="65535" min="0" name="CuvtrNav" type="tUInt16"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 34 bytes (packed offset: 34 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="34" max="65535" min="0" name="PaddingGap16_3" type="tUInt16"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_MapUpdateRequestFeedBack with size 16 bytes (packed size: 16 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_MapUpdateRequestFeedBack" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="FeedBack" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="1" name="Dt_ARRAY_10000_uint8" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10000_uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="10000" byteorder="LE" bytepos="0" name="elements" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_Diag_Coding with size 4 bytes (packed size: 4 bytes)-->
+    <struct alignment="2" name="Dt_RECORD_Diag_Coding" version="1">
+      <!--Element with RTE datatype Dt_UINT8_1_0, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="FW_Dummy" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 1 bytes (packed offset: 1 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="1" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="2" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Mapping of primitive Type Dt_BOOL to tUInt8-->
+    <struct alignment="1" name="Dt_BOOL" version="1">
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="1" min="0" name="element" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_AVCameraFail with size 16 bytes (packed size: 16 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_AVCameraFail" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="Front_AV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="Rear_AV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="14" max="255" min="0" name="Left_AV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 15 bytes (packed offset: 15 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="15" max="255" min="0" name="Right_AV_Camera_Status" type="tUInt8"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="1" name="Dt_ARRAY_8_uint8" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_8_uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="8" byteorder="LE" bytepos="0" name="elements" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_SVCameraFail with size 24 bytes (packed size: 24 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_SVCameraFail" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="Front_SV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="Rear_SV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="14" max="255" min="0" name="Left_SV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 15 bytes (packed offset: 15 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="15" max="255" min="0" name="Right_SV_Camera_Status" type="tUInt8"/>
+      <!--Element with RTE datatype Dt_ARRAY_8_uint8, offset 16 bytes (packed offset: 16 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="16" name="nReserved" type="Dt_ARRAY_8_uint8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_AIPilotObj with size 28 bytes (packed size: 28 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_AIPilotObj" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="AIPilotObjId" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="AIPilotObjLongtRltvDist" type="tUInt16"/>
+      <!--Element with RTE datatype uint16, offset 16 bytes (packed offset: 16 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="16" max="65535" min="0" name="AIPilotObjLatRltvDist" type="tUInt16"/>
+      <!--Element with RTE datatype uint8, offset 18 bytes (packed offset: 18 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="18" max="255" min="0" name="AIPilotObjStyle" type="tUInt8"/>
+      <!--Element with RTE datatype boolean, offset 19 bytes (packed offset: 19 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="19" max="1" min="0" name="AIPilotObjCrashRisk" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 20 bytes (packed offset: 20 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="20" max="65535" min="0" name="AIPilotObjAngle" type="tUInt16"/>
+      <!--Element with RTE datatype uint16, offset 22 bytes (packed offset: 22 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="22" max="65535" min="0" name="AIPilotObjLongtRltvSpd" type="tUInt16"/>
+      <!--Element with RTE datatype uint16, offset 24 bytes (packed offset: 24 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="24" max="65535" min="0" name="AIPilotObjSyncCtr" type="tUInt16"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 26 bytes (packed offset: 26 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="26" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="4" name="Dt_ARRAY_16_AIPilotObj" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_16_AIPilotObj, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="16" byteorder="LE" bytepos="0" name="elements" type="Dt_RECORD_AIPilotObj"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_AIPilotObjsDsp with size 460 bytes (packed size: 460 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_AIPilotObjsDsp" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype Dt_ARRAY_16_AIPilotObj, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" name="gstAIPilotObjects" type="Dt_ARRAY_16_AIPilotObj"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_TrafficLight with size 16 bytes (packed size: 16 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_TrafficLight" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="TrafficLightShap" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="TrafficLightColr" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="14" max="255" min="0" name="TrafficLightTim" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 15 bytes (packed offset: 15 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="15" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="4" name="Dt_ARRAY_4_TrafficLight" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_4_TrafficLight, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="4" byteorder="LE" bytepos="0" name="elements" type="Dt_RECORD_TrafficLight"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_IECUNavigationInfo with size 84 bytes (packed size: 84 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_IECUNavigationInfo" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="NavigationTrafficLightInfo" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+      <!--Element with RTE datatype Dt_ARRAY_4_TrafficLight, offset 16 bytes (packed offset: 16 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="16" name="gstTrafficLights" type="Dt_ARRAY_4_TrafficLight"/>
+      <!--Element with RTE datatype uint8, offset 80 bytes (packed offset: 80 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="80" max="255" min="0" name="RoadSpeedLimitSign" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 81 bytes (packed offset: 81 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="81" max="255" min="0" name="SpeedingWrnng" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 82 bytes (packed offset: 82 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="82" max="255" min="0" name="TrafficbanSign" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 83 bytes (packed offset: 83 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="83" max="255" min="0" name="TrafficWrnngSign" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_ParkingSpace with size 24 bytes (packed size: 24 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_ParkingSpace" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="ParkngSpaceID" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="ParkngSpaceLongtRltvDist" type="tUInt16"/>
+      <!--Element with RTE datatype uint16, offset 16 bytes (packed offset: 16 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="16" max="65535" min="0" name="ParkngSpaceLatRltvDist" type="tUInt16"/>
+      <!--Element with RTE datatype uint8, offset 18 bytes (packed offset: 18 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="18" max="255" min="0" name="ParkngSpaceAngle" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 19 bytes (packed offset: 19 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="19" max="255" min="0" name="ParkngSpaceSts" type="tUInt8"/>
+      <!--Element with RTE datatype uint16, offset 20 bytes (packed offset: 20 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="20" max="65535" min="0" name="ParkngSpaceSyncCtr" type="tUInt16"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 22 bytes (packed offset: 22 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="22" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="4" name="Dt_ARRAY_8_ParkingSpace" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_8_ParkingSpace, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="8" byteorder="LE" bytepos="0" name="elements" type="Dt_RECORD_ParkingSpace"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_ParkingSpacesDsp with size 208 bytes (packed size: 208 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_ParkingSpacesDsp" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype Dt_ARRAY_8_ParkingSpace, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" name="gstParkingSpaces" type="Dt_ARRAY_8_ParkingSpace"/>
+      <!--Element with RTE datatype uint8, offset 204 bytes (packed offset: 204 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="204" max="255" min="0" name="TgtParkngSpaceID" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 205 bytes (packed offset: 205 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="205" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 206 bytes (packed offset: 206 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="206" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_MapUpdataRequest with size 16 bytes (packed size: 16 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_MapUpdataRequest" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="MapRequest" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_StbmTimestamp with size 16 bytes (packed size: 16 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_StbmTimestamp" version="1">
+      <!--Element with RTE datatype uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="status" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 1 bytes (packed offset: 1 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="1" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="2" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+      <!--Element with RTE datatype uint32, offset 4 bytes (packed offset: 4 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="4" max="4294967295" min="0" name="nanoseconds" type="tUInt32"/>
+      <!--Element with RTE datatype uint32, offset 8 bytes (packed offset: 8 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="8" max="4294967295" min="0" name="seconds" type="tUInt32"/>
+      <!--Element with RTE datatype uint16, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="65535" min="0" name="secondsHigh" type="tUInt16"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="14" max="65535" min="0" name="PaddingGap16_3" type="tUInt16"/>
+    </struct>
+    <!--Mapping of primitive Type Dt_BuildRevision to tUInt32-->
+    <struct alignment="4" name="Dt_BuildRevision" version="1">
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" max="4294967295" min="0" name="element" type="tUInt32"/>
+    </struct>
+    <!--Definition for struct Dt_Record_Version with size 4 bytes (packed size: 4 bytes)-->
+    <struct alignment="1" name="Dt_Record_Version" version="1">
+      <!--Element with RTE datatype uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeMajor" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 1 bytes (packed offset: 1 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="1" max="255" min="0" name="DeMinor" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="2" max="255" min="0" name="DePatch" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 3 bytes (packed offset: 3 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="3" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="1" name="Dt_ARRAY5_ReleaseType" version="1">
+      <!--Element with RTE datatype Dt_ARRAY5_ReleaseType, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="5" byteorder="LE" bytepos="0" name="elements" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_IFSET_VERSION with size 4 bytes (packed size: 4 bytes)-->
+    <struct alignment="1" name="Dt_IFSET_VERSION" version="1">
+      <!--Element with RTE datatype uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeMajor" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 1 bytes (packed offset: 1 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="1" max="255" min="0" name="DeMinor" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 2 bytes (packed offset: 2 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="2" max="255" min="0" name="DePatch" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 3 bytes (packed offset: 3 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="3" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+    </struct>
+    <!--Mapping of primitive Type Dt_ENUM_LCS_State to tUInt8-->
+    <struct alignment="1" name="Dt_ENUM_LCS_State" version="1">
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="element" type="tUInt8"/>
+    </struct>
+    <!--Mapping of primitive Type Dt_ENUM_VAR_HWVariant to tUInt8-->
+    <struct alignment="1" name="Dt_ENUM_VAR_HWVariant" version="1">
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="element" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_UserCLB with size 92 bytes (packed size: 92 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_UserCLB" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10_sint32, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="ngSignal" type="Dt_ARRAY_10_sint32"/>
+      <!--Element with RTE datatype Dt_ARRAY_10_float32, offset 40 bytes (packed offset: 40 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="40" name="fgSignal" type="Dt_ARRAY_10_float32"/>
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 80 bytes (packed offset: 80 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="80" name="stHeader" type="Dt_RECORD_HEADER"/>
+    </struct>
+    <!--Additional wrapper type for array-->
+    <struct alignment="1" name="Dt_ARRAY_10_uint8" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10_uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="10" byteorder="LE" bytepos="0" name="elements" type="tUInt8"/>
+    </struct>
+    <!--Definition for struct Dt_RECORD_DrivingModeSts with size 28 bytes (packed size: 28 bytes)-->
+    <struct alignment="4" name="Dt_RECORD_DrivingModeSts" version="1">
+      <!--Element with RTE datatype Dt_RECORD_HEADER, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="stHeader" type="Dt_RECORD_HEADER"/>
+      <!--Element with RTE datatype uint8, offset 12 bytes (packed offset: 12 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="12" max="255" min="0" name="nWarningLevel" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 13 bytes (packed offset: 13 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="13" max="255" min="0" name="nDrivingStatus" type="tUInt8"/>
+      <!--Element with RTE datatype uint8, offset 14 bytes (packed offset: 14 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="14" max="255" min="0" name="nDrivingMode" type="tUInt8"/>
+      <!--Element with RTE datatype Dt_ARRAY_10_uint8, offset 15 bytes (packed offset: 15 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="15" name="ngBKP" type="Dt_ARRAY_10_uint8"/>
+      <!--Element with RTE datatype UINT_GAP_8, offset 25 bytes (packed offset: 25 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="25" max="255" min="0" name="PaddingGap8_1" type="tUInt8"/>
+      <!--Element with RTE datatype UINT_GAP_16, offset 26 bytes (packed offset: 26 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="26" max="65535" min="0" name="PaddingGap16_2" type="tUInt16"/>
+    </struct>
+    <!--Wrap pin data elements into structs-->
+    <struct alignment="4" name="PiPdUSBCom_DeUSBCom_Critical" version="1">
+      <!--Element with RTE datatype Dt_RECORD_USBCom_Critical, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeUSBCom_Critical" type="Dt_RECORD_USBCom_Critical"/>
+    </struct>
+    <struct alignment="4" name="PiUSBCom_InteractionProcess_100ms_DeParkingSpaceDspFeedBack" version="1">
+      <!--Element with RTE datatype Dt_RECORD_ParkingSpaceDspFeedBack, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeParkingSpaceDspFeedBack" type="Dt_RECORD_ParkingSpaceDspFeedBack"/>
+    </struct>
+    <struct alignment="4" name="PiUSBCom_MapFreeRunning_100ms_DeNavigationInfo" version="1">
+      <!--Element with RTE datatype Dt_RECORD_NavigationInfo, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeNavigationInfo" type="Dt_RECORD_NavigationInfo"/>
+    </struct>
+    <struct alignment="4" name="PiUSBCom_MapSourcingFreeRunning_100ms_DeMapUpdateRequestFeedBack" version="1">
+      <!--Element with RTE datatype Dt_RECORD_MapUpdateRequestFeedBack, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeMapUpdateRequestFeedBack" type="Dt_RECORD_MapUpdateRequestFeedBack"/>
+    </struct>
+    <struct alignment="4" name="PiUSBCom_NavigationTrail_100ms_DeNavigationTrail" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10000_uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" name="DeNavigationTrail" type="Dt_ARRAY_10000_uint8"/>
+    </struct>
+    <struct alignment="4" name="PiUSBCom_ReservedInfo_100ms_DeReservedInfo" version="1">
+      <!--Element with RTE datatype Dt_ARRAY_10000_uint8, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" name="DeReservedInfo" type="Dt_ARRAY_10000_uint8"/>
+    </struct>
+    <struct alignment="4" name="PiDiagCoding_DeCoding" version="1">
+      <!--Element with RTE datatype Dt_RECORD_Diag_Coding, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="2" arraysize="1" byteorder="LE" bytepos="0" name="DeCoding" type="Dt_RECORD_Diag_Coding"/>
+    </struct>
+    <struct alignment="4" name="PiDiagGlobalRead_DeFSPCleared" version="1">
+      <!--Element with RTE datatype Dt_BOOL, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="1" min="0" name="DeFSPCleared" type="Dt_BOOL"/>
+    </struct>
+    <struct alignment="4" name="PiEthernetCom_AVCameraFail_100ms_DeAVCameraFail" version="1">
+      <!--Element with RTE datatype Dt_RECORD_AVCameraFail, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeAVCameraFail" type="Dt_RECORD_AVCameraFail"/>
+    </struct>
+    <struct alignment="4" name="PiImageProcess_SVCameraFail_60ms_DeSurroundCameraFail" version="1">
+      <!--Element with RTE datatype Dt_RECORD_SVCameraFail, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeSurroundCameraFail" type="Dt_RECORD_SVCameraFail"/>
+    </struct>
+    <struct alignment="4" name="PiInteractionProcess_USBCom_100ms_DeAIPilotObjsDsp" version="1">
+      <!--Element with RTE datatype Dt_RECORD_AIPilotObjsDsp, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeAIPilotObjsDsp" type="Dt_RECORD_AIPilotObjsDsp"/>
+    </struct>
+    <struct alignment="4" name="PiInteractionProcess_USBCom_100ms_DeIECUNavigationInfo" version="1">
+      <!--Element with RTE datatype Dt_RECORD_IECUNavigationInfo, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeIECUNavigationInfo" type="Dt_RECORD_IECUNavigationInfo"/>
+    </struct>
+    <struct alignment="4" name="PiInteractionProcess_USBCom_100ms_DeParkingSpacesDsp" version="1">
+      <!--Element with RTE datatype Dt_RECORD_ParkingSpacesDsp, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeParkingSpacesDsp" type="Dt_RECORD_ParkingSpacesDsp"/>
+    </struct>
+    <struct alignment="4" name="PiMapSourcingFreeRunning_USBCom_100ms_DeMapUpdataRequest" version="1">
+      <!--Element with RTE datatype Dt_RECORD_MapUpdataRequest, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeMapUpdataRequest" type="Dt_RECORD_MapUpdataRequest"/>
+    </struct>
+    <struct alignment="4" name="PiPFInformation_DeBuildDate" version="1">
+      <!--Element with RTE datatype Dt_RECORD_StbmTimestamp, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeBuildDate" type="Dt_RECORD_StbmTimestamp"/>
+    </struct>
+    <struct alignment="4" name="PiPFInformation_DeBuildRevision" version="1">
+      <!--Element with RTE datatype Dt_BuildRevision, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" max="4294967295" min="0" name="DeBuildRevision" type="Dt_BuildRevision"/>
+    </struct>
+    <struct alignment="4" name="PiPFInformation_DePlatformVersion" version="1">
+      <!--Element with RTE datatype Dt_Record_Version, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" name="DePlatformVersion" type="Dt_Record_Version"/>
+    </struct>
+    <struct alignment="4" name="PiPFInformation_DeReleaseType" version="1">
+      <!--Element with RTE datatype Dt_ARRAY5_ReleaseType, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" name="DeReleaseType" type="Dt_ARRAY5_ReleaseType"/>
+    </struct>
+    <struct alignment="4" name="PiPFInformation_DeSystemVersion" version="1">
+      <!--Element with RTE datatype Dt_IFSET_VERSION, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" name="DeSystemVersion" type="Dt_IFSET_VERSION"/>
+    </struct>
+    <struct alignment="4" name="PiPFProvidedData_DeIFSETVersion" version="1">
+      <!--Element with RTE datatype Dt_IFSET_VERSION, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" name="DeIFSETVersion" type="Dt_IFSET_VERSION"/>
+    </struct>
+    <struct alignment="4" name="PiPFProvidedData_DeLCSPH00State" version="1">
+      <!--Element with RTE datatype Dt_ENUM_LCS_State, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeLCSPH00State" type="Dt_ENUM_LCS_State"/>
+    </struct>
+    <struct alignment="4" name="PiPFProvidedData_DeLCSSH00State" version="1">
+      <!--Element with RTE datatype Dt_ENUM_LCS_State, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeLCSSH00State" type="Dt_ENUM_LCS_State"/>
+    </struct>
+    <struct alignment="4" name="PiPFProvidedData_DeLCSSH01State" version="1">
+      <!--Element with RTE datatype Dt_ENUM_LCS_State, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeLCSSH01State" type="Dt_ENUM_LCS_State"/>
+    </struct>
+    <struct alignment="4" name="PiPFProvidedData_DeLCSSystemState" version="1">
+      <!--Element with RTE datatype Dt_ENUM_LCS_State, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeLCSSystemState" type="Dt_ENUM_LCS_State"/>
+    </struct>
+    <struct alignment="4" name="PiPFProvidedData_DeVARHWVariant" version="1">
+      <!--Element with RTE datatype Dt_ENUM_VAR_HWVariant, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="1" arraysize="1" byteorder="LE" bytepos="0" max="255" min="0" name="DeVARHWVariant" type="Dt_ENUM_VAR_HWVariant"/>
+    </struct>
+    <struct alignment="4" name="PiPfTpUSBCom_CLB_100ms_DeUSBComCLB" version="1">
+      <!--Element with RTE datatype Dt_RECORD_UserCLB, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeUSBComCLB" type="Dt_RECORD_UserCLB"/>
+    </struct>
+    <struct alignment="4" name="PiSysManager_DrivingModeSts_50ms_DeDrivingModeSts" version="1">
+      <!--Element with RTE datatype Dt_RECORD_DrivingModeSts, offset 0 bytes (packed offset: 0 bytes)-->
+      <element alignment="4" arraysize="1" byteorder="LE" bytepos="0" name="DeDrivingModeSts" type="Dt_RECORD_DrivingModeSts"/>
+    </struct>
+  </structs>
+  <streams>
+    <stream name="PiDiagCoding_DeCoding_stream" type="PiDiagCoding_DeCoding"/>
+    <stream name="PiDiagGlobalRead_DeFSPCleared_stream" type="PiDiagGlobalRead_DeFSPCleared"/>
+    <stream name="PiEthernetCom_AVCameraFail_100ms_DeAVCameraFail_stream" type="PiEthernetCom_AVCameraFail_100ms_DeAVCameraFail"/>
+    <stream name="PiImageProcess_SVCameraFail_60ms_DeSurroundCameraFail_stream" type="PiImageProcess_SVCameraFail_60ms_DeSurroundCameraFail"/>
+    <stream name="PiInteractionProcess_USBCom_100ms_DeAIPilotObjsDsp_stream" type="PiInteractionProcess_USBCom_100ms_DeAIPilotObjsDsp"/>
+    <stream name="PiInteractionProcess_USBCom_100ms_DeIECUNavigationInfo_stream" type="PiInteractionProcess_USBCom_100ms_DeIECUNavigationInfo"/>
+    <stream name="PiInteractionProcess_USBCom_100ms_DeParkingSpacesDsp_stream" type="PiInteractionProcess_USBCom_100ms_DeParkingSpacesDsp"/>
+    <stream name="PiMapSourcingFreeRunning_USBCom_100ms_DeMapUpdataRequest_stream" type="PiMapSourcingFreeRunning_USBCom_100ms_DeMapUpdataRequest"/>
+    <stream name="PiPFInformation_DeBuildDate_stream" type="PiPFInformation_DeBuildDate"/>
+    <stream name="PiPFInformation_DeBuildRevision_stream" type="PiPFInformation_DeBuildRevision"/>
+    <stream name="PiPFInformation_DePlatformVersion_stream" type="PiPFInformation_DePlatformVersion"/>
+    <stream name="PiPFInformation_DeReleaseType_stream" type="PiPFInformation_DeReleaseType"/>
+    <stream name="PiPFInformation_DeSystemVersion_stream" type="PiPFInformation_DeSystemVersion"/>
+    <stream name="PiPFProvidedData_DeIFSETVersion_stream" type="PiPFProvidedData_DeIFSETVersion"/>
+    <stream name="PiPFProvidedData_DeLCSPH00State_stream" type="PiPFProvidedData_DeLCSPH00State"/>
+    <stream name="PiPFProvidedData_DeLCSSH00State_stream" type="PiPFProvidedData_DeLCSSH00State"/>
+    <stream name="PiPFProvidedData_DeLCSSH01State_stream" type="PiPFProvidedData_DeLCSSH01State"/>
+    <stream name="PiPFProvidedData_DeLCSSystemState_stream" type="PiPFProvidedData_DeLCSSystemState"/>
+    <stream name="PiPFProvidedData_DeVARHWVariant_stream" type="PiPFProvidedData_DeVARHWVariant"/>
+    <stream name="PiPdUSBCom_DeUSBCom_Critical_stream" type="PiPdUSBCom_DeUSBCom_Critical"/>
+    <stream name="PiPfTpUSBCom_CLB_100ms_DeUSBComCLB_stream" type="PiPfTpUSBCom_CLB_100ms_DeUSBComCLB"/>
+    <stream name="PiSysManager_DrivingModeSts_50ms_DeDrivingModeSts_stream" type="PiSysManager_DrivingModeSts_50ms_DeDrivingModeSts"/>
+    <stream name="PiUSBCom_InteractionProcess_100ms_DeParkingSpaceDspFeedBack_stream" type="PiUSBCom_InteractionProcess_100ms_DeParkingSpaceDspFeedBack"/>
+    <stream name="PiUSBCom_MapFreeRunning_100ms_DeNavigationInfo_stream" type="PiUSBCom_MapFreeRunning_100ms_DeNavigationInfo"/>
+    <stream name="PiUSBCom_MapSourcingFreeRunning_100ms_DeMapUpdateRequestFeedBack_stream" type="PiUSBCom_MapSourcingFreeRunning_100ms_DeMapUpdateRequestFeedBack"/>
+    <stream name="PiUSBCom_NavigationTrail_100ms_DeNavigationTrail_stream" type="PiUSBCom_NavigationTrail_100ms_DeNavigationTrail"/>
+    <stream name="PiUSBCom_ReservedInfo_100ms_DeReservedInfo_stream" type="PiUSBCom_ReservedInfo_100ms_DeReservedInfo"/>
+  </streams>
+</adtf:ddl>
+

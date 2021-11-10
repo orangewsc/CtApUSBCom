@@ -1,0 +1,201 @@
+/**********************************************************************************************************************
+ *	 Copyright (C) 2019 TTTech-Auto AG. All rights reserved.
+ *   Operngasse 7, 1040 Wien, Austria. office@tttech-auto.com
+ *
+ *  FILE DESCRIPTION
+ *  -------------------------------------------------------------------------------------------------------------------
+ *          File:  CtApUSBCom.c
+ *        Config:  
+ *     SW-C Type:  CtApUSBCom
+ *  Generated at:  Fri May 21 05:12:15 2021
+ *
+ *     Generator:  Implementation Template generator ITG
+ *
+ *   Description:  C-Code implementation template for SW-C <CtApUSBCom>
+ *
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of version logging area >>                DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+/* PRQA S 0777, 0779 EOF */ /* MD_MSR_5.1_777, MD_MSR_5.1_779 */
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of version logging area >>                  DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+#include "Rte_CtApUSBCom.h" /* PRQA S 0857 */ /* MD_MSR_1.1_857 */
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of include and declaration area >>        DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of include and declaration area >>          DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+#define CtApUSBCom_START_SEC_CODE
+#include "CtApUSBCom_MemMap.h" /* PRQA S 5087 */ /* MD_MSR_19.1 */
+
+/**********************************************************************************************************************
+ *
+ * Runnable Entity Name: RCtApUSBCom_100ms
+ *
+ *---------------------------------------------------------------------------------------------------------------------
+ *
+ * Executed if at least one of the following trigger conditions occurred:
+ *   - triggered on TimingEvent every 100ms
+ *
+ **********************************************************************************************************************
+ *
+ * Input Interfaces:
+ * =================
+ *   Explicit S/R API:
+ *   -----------------
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpDiagCoding_DeCoding(P2VAR(Dt_RECORD_Diag_Coding, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpDiagCoding_DeCoding(void)
+*   Std_ReturnType Rte_Receive_CtApUSBCom_PpDiagGlobalRead_DeFSPCleared(P2VAR(Dt_BOOL, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpEthernetCom_AVCameraFail_100ms_DeAVCameraFail(P2VAR(Dt_RECORD_AVCameraFail, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpEthernetCom_AVCameraFail_100ms_DeAVCameraFail(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpImageProcess_SVCameraFail_60ms_DeSurroundCameraFail(P2VAR(Dt_RECORD_SVCameraFail, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpImageProcess_SVCameraFail_60ms_DeSurroundCameraFail(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpInteractionProcess_USBCom_100ms_DeAIPilotObjsDsp(P2VAR(Dt_RECORD_AIPilotObjsDsp, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpInteractionProcess_USBCom_100ms_DeAIPilotObjsDsp(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpInteractionProcess_USBCom_100ms_DeIECUNavigationInfo(P2VAR(Dt_RECORD_IECUNavigationInfo, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpInteractionProcess_USBCom_100ms_DeIECUNavigationInfo(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpInteractionProcess_USBCom_100ms_DeParkingSpacesDsp(P2VAR(Dt_RECORD_ParkingSpacesDsp, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpInteractionProcess_USBCom_100ms_DeParkingSpacesDsp(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpPdUSBComRead_DeUSBCom_Critical(P2VAR(Dt_RECORD_USBCom_Critical, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpPdUSBComRead_DeUSBCom_Critical(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpSysManager_DrivingModeSts_50ms_DeDrivingModeSts(P2VAR(Dt_RECORD_DrivingModeSts, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+*   FUNC(boolean, RTE_CODE) Rte_IsUpdated_CtApUSBCom_PpSysManager_DrivingModeSts_50ms_DeDrivingModeSts(void)
+*   Std_ReturnType Rte_Read_CtApUSBCom_PpSysManager2USBCom_100ms_DeSysManager2USBCom(P2VAR(Dt_RECORD_SysManager2USBCom, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) data)
+ *
+ *   Implicit S/R API:
+ *   -----------------
+*   FUNC_P2CONST(Dt_RECORD_StbmTimestamp, AUTOMATIC, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPfInformation_DeBuildDate(void)
+*   FUNC(Dt_BuildRevision, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPfInformation_DeBuildRevision(void)
+*   FUNC_P2CONST(Dt_Record_Version, AUTOMATIC, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPfInformation_DePlatformVersion(void)
+*   FUNC_P2CONST(Dt_ARRAY5_ReleaseType, AUTOMATIC, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPfInformation_DeReleaseType(void)
+*   FUNC_P2CONST(Dt_IFSET_VERSION, AUTOMATIC, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPfInformation_DeSystemVersion(void)
+*   FUNC_P2CONST(Dt_IFSET_VERSION, AUTOMATIC, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPFProvidedData_DeIFSETVersion(void)
+*   FUNC(Dt_ENUM_LCS_State, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPFProvidedData_DeLCSPH00State(void)
+*   FUNC(Dt_ENUM_LCS_State, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPFProvidedData_DeLCSSH00State(void)
+*   FUNC(Dt_ENUM_LCS_State, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPFProvidedData_DeLCSSH01State(void)
+*   FUNC(Dt_ENUM_LCS_State, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPFProvidedData_DeLCSSystemState(void)
+*   FUNC(Dt_ENUM_VAR_HWVariant, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPFProvidedData_DeVARHWVariant(void)
+*   FUNC_P2CONST(Dt_RECORD_UserCLB, AUTOMATIC, RTE_CODE) Rte_IRead_RCtApUSBCom_100ms_PpPfTpUSBCom_CLB_100ms_DeUSBComCLB(void)
+ *
+ * Output Interfaces:
+ * ==================
+ *   Explicit S/R API:
+ *   -----------------
+*   Std_ReturnType Rte_Write_CtApUSBCom_PpPdUSBComWrite_DeUSBCom_Critical(P2CONST(Dt_RECORD_USBCom_Critical, AUTOMATIC, RTE_CTAPUSBCOM_APPL_DATA) data)
+*   Std_ReturnType Rte_Write_CtApUSBCom_PpUSBCom_CtApSysManager_100ms_DeFICM2IECUSpdCtrl(P2CONST(Dt_RECORD_FICM2IECUSpdCtrl, AUTOMATIC, RTE_CTAPUSBCOM_APPL_DATA) data)
+*   Std_ReturnType Rte_Write_CtApUSBCom_PpUSBCom_InteractionProcess_100ms_DeParkingSpaceDspFeedBack(P2CONST(Dt_RECORD_ParkingSpaceDspFeedBack, AUTOMATIC, RTE_CTAPUSBCOM_APPL_DATA) data)
+ *
+ * Client/Server Interfaces:
+ * =========================
+ *   Server Invocation:
+ *   ------------------
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpEHEvent_GetErrorStatus(P2VAR(Dt_BOOL, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) is_qualified, Dt_ENUM_SWCID reporter_id, Dt_ENUM_EHErrorID error_id)
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpEHEvent_ReportError(P2CONST(Dt_RECORD_EHReporterID, AUTOMATIC, RTE_CTAPUSBCOM_APPL_DATA) reporter_id, Dt_ENUM_EHErrorID error_id, Dt_BOOL set)
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpEventHandling_GetEventStatus(Dem_EventIdType EventId, P2VAR(Dem_EventStatusExtendedType, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) EventStatusExtended)
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpEventHandling_SetEventStatus(Dem_EventIdType EventId, Dem_EventStatusType EventStatus)
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpPFServer_TS_GetEgtTime(P2VAR(Dt_RECORD_StbmTimestamp, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) timestamp)
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpPFServer_TS_GetEgtTimestamp(P2VAR(Dt_RECORD_Timestamp, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) Timestamp, P2VAR(Dt_ENUM_CLKSOURCE, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) Clock)
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpPFServer_TS_GetRemainingTimeBudget(P2VAR(sint32, AUTOMATIC, RTE_CTAPUSBCOM_APPL_VAR) RemainingTimeBudget)
+ *
+ *********************************************************************************************************************/
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of documentation area >>                  DO NOT CHANGE THIS COMMENT!
+ * Symbol: RCtApUSBCom_100ms_doc
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of documentation area >>                    DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+FUNC(void, CtApUSBCom_CODE) RCtApUSBCom_100ms(void) /* PRQA S 0850 */ /* MD_MSR_19.8 */
+{
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of runnable implementation >>             DO NOT CHANGE THIS COMMENT!
+ * Symbol: RCtApUSBCom_100ms
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of runnable implementation >>               DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+}
+
+/**********************************************************************************************************************
+ *
+ * Runnable Entity Name: RCtApUSBCom_Init
+ *
+ *---------------------------------------------------------------------------------------------------------------------
+ *
+ * Executed once after the RTE is started
+ *
+ **********************************************************************************************************************
+ *
+ * Client/Server Interfaces:
+ * =========================
+ *   Server Invocation:
+ *   ------------------
+ *    FUNC(Std_ReturnType, RTE_CODE) Rte_Call_CtApUSBCom_PpPFServer_SetSwcInfo(Dt_ENUM_SWCID swc_id, P2CONST(Dt_RECORD_SWC_Identification, AUTOMATIC, RTE_CTAPUSBCOM_APPL_DATA) swc_info)
+ *
+ *********************************************************************************************************************/
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of documentation area >>                  DO NOT CHANGE THIS COMMENT!
+ * Symbol: RCtApUSBCom_Init_doc
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of documentation area >>                    DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+FUNC(void, CtApUSBCom_CODE) RCtApUSBCom_Init(void) /* PRQA S 0850 */ /* MD_MSR_19.8 */
+{
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of runnable implementation >>             DO NOT CHANGE THIS COMMENT!
+ * Symbol: RCtApUSBCom_Init
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of runnable implementation >>               DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+}
+
+
+#define CtApUSBCom_STOP_SEC_CODE
+#include "CtApUSBCom_MemMap.h" /* PRQA S 5087 */ /* MD_MSR_19.1 */
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of function definition area >>            DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of function definition area >>              DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << Start of removed code area >>                   DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+
+/**********************************************************************************************************************
+ * DO NOT CHANGE THIS COMMENT!           << End of removed code area >>                     DO NOT CHANGE THIS COMMENT!
+ *********************************************************************************************************************/
+
+
